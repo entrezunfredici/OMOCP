@@ -1,45 +1,73 @@
-const SERVICE_URL = (process.env.ODOO_SERVICE_URL ?? "http://127.0.0.1:8765").replace(/\/$/, "");
-const PLUGIN_TOKEN = process.env.ODOO_PLUGIN_TOKEN ?? "";
-const REQUEST_TIMEOUT_MS = 30_000;
+import { spawn } from "node:child_process";
+import { existsSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import type { ActionResult } from "./types.js";
 
-export interface BridgeRequest {
-    action: string;
-    model?: string;
-    payload?: Record<string, unknown>;
-    config: Record<string, unknown>;
+const pluginRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const defaultPythonCommand = process.platform === "win32" ? "python" : "python3";
+const venvPythonCommand =
+    process.platform === "win32"
+        ? resolve(pluginRoot, ".venv", "Scripts", "python.exe")
+        : resolve(pluginRoot, ".venv", "bin", "python");
+
+function resolvePythonCommand(): string {
+    if (process.env.PYTHON) {
+        return process.env.PYTHON;
+    }
+
+    return existsSync(venvPythonCommand) ? venvPythonCommand : defaultPythonCommand;
 }
 
-export async function runPythonAction(request: BridgeRequest): Promise<unknown> {
-    const headers: Record<string, string> = { "Content-Type": "application/json" };
-    if (PLUGIN_TOKEN) headers["X-Plugin-Token"] = PLUGIN_TOKEN;
+export interface SdkOdooRequest {
+    action: string;
+    model?: string;
+    payload: Record<string, unknown>;
+}
 
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-
-    let response: Response;
-    try {
-        response = await fetch(`${SERVICE_URL}/execute`, {
-            method: "POST",
-            headers,
-            body: JSON.stringify(request),
-            signal: controller.signal,
+function spawnPythonCli(module: string, request: Record<string, unknown>): Promise<unknown> {
+    return new Promise((resolvePromise, rejectPromise) => {
+        const pythonCommand = resolvePythonCommand();
+        const child = spawn(pythonCommand, ["-m", module], {
+            cwd: pluginRoot,
+            stdio: ["pipe", "pipe", "pipe"],
         });
-    } catch (err: unknown) {
-        const isTimeout = err instanceof Error && err.name === "AbortError";
-        const msg = isTimeout
-            ? `Odoo connector service timed out after ${REQUEST_TIMEOUT_MS / 1000}s (${SERVICE_URL})`
-            : `Cannot reach Odoo connector service at ${SERVICE_URL} — start it with: python -m python.odoo_connector.server\n${err instanceof Error ? err.message : String(err)}`;
-        throw new Error(msg);
-    } finally {
-        clearTimeout(timer);
-    }
 
-    const body = await response.json().catch(() => null);
+        let stdout = "";
+        let stderr = "";
 
-    if (!response.ok) {
-        const detail = body?.detail ?? body ?? response.statusText;
-        throw new Error(typeof detail === "string" ? detail : JSON.stringify(detail));
-    }
+        child.stdout.on("data", (data: Buffer) => { stdout += data.toString(); });
+        child.stderr.on("data", (data: Buffer) => { stderr += data.toString(); });
+        child.on("error", (error: Error) => { rejectPromise(error); });
 
-    return body;
+        child.on("close", (code: number | null) => {
+            if (code !== 0) {
+                rejectPromise(new Error(stderr || `Python process exited with code ${code}`));
+                return;
+            }
+            try {
+                resolvePromise(JSON.parse(stdout));
+            } catch {
+                rejectPromise(new Error(`Invalid JSON from Python: ${stdout}`));
+            }
+        });
+
+        child.stdin.write(JSON.stringify(request));
+        child.stdin.end();
+    });
+}
+
+/** Call the omocp_odoo AI executor (profile-based rights, no config object needed). */
+export function runSdkOdooAction<T = ActionResult>(request: SdkOdooRequest): Promise<T> {
+    return spawnPythonCli("omocp_odoo.cli", request as unknown as Record<string, unknown>) as Promise<T>;
+}
+
+export interface SdkOdooConfigRequest {
+    action: string;
+    payload: Record<string, unknown>;
+}
+
+/** Call the omocp_odoo config executor (profile & right CRUD, live Odoo meta). */
+export function runSdkOdooConfig<T = ActionResult>(request: SdkOdooConfigRequest): Promise<T> {
+    return spawnPythonCli("omocp_odoo.cli_config", request as unknown as Record<string, unknown>) as Promise<T>;
 }

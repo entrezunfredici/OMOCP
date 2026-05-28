@@ -1,19 +1,23 @@
 {
-    "name": "@fred/odoo-manager-openclaw-plugin",
+    "name": "@fred/omocp",
     "version": "0.1.0",
     "type": "module",
     "main": "./dist/index.js",
     "scripts": {
         "build": "tsc",
         "dev": "tsc -w",
-        "install:python": "python3 -m venv .venv && .venv/bin/pip install --upgrade pip -q && .venv/bin/pip install -r requirements.txt"
+        "lint": "eslint src/**/*.ts",
+        "install:python": "node ./scripts/install-python-deps.mjs"
     },
     "dependencies": {
         "@sinclair/typebox": "^0.34.0"
     },
     "devDependencies": {
+        "@eslint/js": "^10.0.1",
         "@types/node": "^25.5.0",
-        "typescript": "^5.8.0"
+        "eslint": "^10.4.0",
+        "typescript": "^5.8.0",
+        "typescript-eslint": "^8.60.0"
     },
     "openclaw": {
         "extensions": [

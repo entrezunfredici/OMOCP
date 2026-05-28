@@ -1,61 +1,61 @@
 ---
 name: odoo
-description: Safe usage guidance for the Odoo plugin
+description: Guide d'utilisation du plugin OMOCP — connecteur Odoo sécurisé pour OpenClaw
 ---
 
-# Odoo Skill
+# Plugin OMOCP — Odoo pour OpenClaw
 
-Use this connector as a bounded, deny-by-default Odoo integration.
+Ce plugin est un connecteur Odoo générique avec gestion des droits par profil.
+Tout accès est contrôlé par des règles configurées par l'utilisateur dans l'interface OpenClaw.
+L'agent ne peut rien lire, créer, modifier ou supprimer sans règle explicite.
 
-All access is governed by permission rules configured by the user in the OpenClaw interface. The agent cannot read, create, update, or delete anything unless the configured rules explicitly allow it.
+## Outils disponibles
 
-## Safety rules
+| Outil | Action |
+| ----- | ------ |
+| `odoo_sdk_read` | Lire des enregistrements |
+| `odoo_sdk_create` | Créer un enregistrement |
+| `odoo_sdk_update` | Modifier un ou plusieurs enregistrements |
+| `odoo_sdk_delete` | Supprimer un ou plusieurs enregistrements |
+| `odoo_sdk_list_models` | Lister les modèles disponibles d'un profil |
+| `odoo_sdk_list_fields` | Lister les champs d'un modèle (introspection) |
+| `odoo_list_connection_profiles` | Lister les profils de connexion configurés |
+| `odoo_list_rights` | Lister les droits d'accès configurés |
+| `odoo_config_validate` | Vérifier que la configuration est complète |
 
-- Never assume access is allowed.
-- Never expose or request secret values.
-- Prefer `odoo_read` before any write.
-- Never bypass `CONFIRMATION_REQUIRED`.
-- Treat delete as high risk and non-reversible.
+## Paramètres communs
 
-## Available tools
+Tous les outils CRUD prennent un `profile_id` : l'identifiant du profil de connexion configuré.
 
-- `odoo_read`
-- `odoo_create`
-- `odoo_update`
-- `odoo_delete`
+```yaml
+profile_id: "mon-profil"
+model: "project.task"
+```
 
-Each tool must be called with a `profile` object:
+## Règles de sécurité
 
-- `connection_profile_id`
-- optional `access_profile_id`
+- Ne jamais supposer qu'un accès est autorisé.
+- Ne jamais exposer ni demander les secrets (mots de passe, clés API).
+- Toujours faire un `odoo_sdk_read` avant toute écriture pour confirmer l'état actuel.
+- Ne jamais contourner `CONFIRMATION_REQUIRED`.
+- Traiter la suppression comme irréversible — toujours demander confirmation explicite.
 
-## Required behavior for writes
+## Comportement requis pour les écritures
 
-Before any create, update, or delete:
+Avant tout create, update ou delete :
 
-1. use `odoo_read` when you need to confirm current state
-2. present the intended change clearly to the user
-3. proceed only after intent is explicit
-4. if the backend returns `CONFIRMATION_REQUIRED`, ask the user to confirm before retrying with `confirmed: true`
+1. Utiliser `odoo_sdk_read` pour vérifier l'état actuel
+2. Présenter clairement le changement prévu à l'utilisateur
+3. N'agir qu'après une confirmation explicite
+4. Si le backend retourne `CONFIRMATION_REQUIRED`, présenter les détails et relancer avec `confirmed: true`
 
-## Templates
+## Codes d'erreur
 
-- Templates are bounded to known actions only.
-- `create_task` templates must be used with model `project.task`.
-- Permission rules may restrict which template ids are allowed.
-
-## Rollback
-
-- Reversibility metadata exists internally.
-- Rollback execution is still stubbed in this iteration.
-- Do not claim that undo is operational yet.
-
-## Error codes
-
-| Code | Meaning |
-|------|---------|
-| `AUTHORIZATION_DENIED` | The permission rules do not allow this operation. |
-| `CONFIRMATION_REQUIRED` | Policy requires `confirmed: true` before proceeding. |
-| `VALIDATION_ERROR` | Invalid payload or unsupported model/template combination. |
-| `SERVICE_ERROR` | Odoo connection or transport failure. |
-| `NOT_FOUND` | Profile, template, or snapshot not found. |
+| Code | Signification |
+| ---- | ------------- |
+| `AUTHORIZATION_DENIED` | Les règles ne permettent pas cette opération. |
+| `CONFIRMATION_REQUIRED` | La règle exige `confirmed: true` avant d'agir. |
+| `VALIDATION_ERROR` | Payload invalide ou modèle non supporté. |
+| `SERVICE_ERROR` | Échec de connexion ou transport Odoo. |
+| `NOT_FOUND` | Profil ou enregistrement introuvable. |
+| `DENIED_BY_USER` | L'utilisateur a refusé via l'interface de confirmation. |

@@ -1,0 +1,213 @@
+/* OpenClaw app theme */
+:root,
+:root[data-theme="light"] {
+    color-scheme: light;
+
+    --color-background-page: #f7f8fb;
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #eef2f6;
+    --color-background-tertiary: #e3e9f0;
+    --color-background-info: #1f6feb;
+    --color-background-success: #dff6ea;
+    --color-background-warning: #fff2cc;
+    --color-background-danger: #fde7e9;
+    --color-background-transparent: transparent;
+
+    --color-text-primary: #18202b;
+    --color-text-secondary: #4f5d6d;
+    --color-text-tertiary: #7b8794;
+    --color-text-info: #185abc;
+    --color-text-success: #207344;
+    --color-text-warning: #9a6700;
+    --color-text-danger: #b4232f;
+    --color-text-on-accent: #ffffff;
+
+    --color-border-primary: rgba(24, 32, 43, 0.38);
+    --color-border-secondary: rgba(24, 32, 43, 0.22);
+    --color-border-tertiary: rgba(24, 32, 43, 0.12);
+    --color-border-info: rgba(31, 111, 235, 0.34);
+    --color-border-success: rgba(32, 115, 68, 0.28);
+    --color-border-warning: rgba(154, 103, 0, 0.28);
+    --color-border-danger: rgba(180, 35, 47, 0.3);
+    --color-border-spinner: rgba(24, 32, 43, 0.15);
+    --color-border-spinner-active: currentColor;
+    --color-border-spinner-light: rgba(255, 255, 255, 0.3);
+
+    --bg: var(--color-background-page);
+    --paper: var(--color-background-primary);
+    --field-bg: var(--color-background-primary);
+    --card-bg: var(--color-background-primary);
+    --border: var(--color-border-tertiary);
+    --ink: var(--color-text-primary);
+    --muted: var(--color-text-secondary);
+    --accent: #cf5f2f;
+    --accent-dark: #a94725;
+    --line: var(--color-border-tertiary);
+    --white: #ffffff;
+    --danger: #d92d3a;
+    --danger-ink: var(--color-text-danger);
+    --danger-border: var(--color-border-danger);
+    --bg-radial-start: #ffffff;
+    --bg-radial-end: #edf2f7;
+    --aside-grad-start: #ffffff;
+    --aside-grad-end: #edf2f7;
+    --nav-active-bg: #ffffff;
+    --shadow: rgba(24, 32, 43, 0.08);
+    --shadow-strong: rgba(24, 32, 43, 0.18);
+
+    --doodoo-backdrop-bg: rgba(10, 16, 24, 0.48);
+    --doodoo-panel-bg: var(--color-background-primary);
+    --doodoo-panel-text: var(--color-text-primary);
+    --doodoo-panel-border: var(--color-border-tertiary);
+    --doodoo-field-bg: var(--color-background-primary);
+    --doodoo-field-border: var(--color-border-secondary);
+    --doodoo-button-bg: var(--color-background-secondary);
+    --doodoo-button-text: var(--color-text-primary);
+    --doodoo-list-bg: #f9fafb;
+    --doodoo-list-header-bg: #eef2f6;
+    --doodoo-list-border: var(--color-border-tertiary);
+    --doodoo-list-item-border: rgba(24, 32, 43, 0.08);
+    --doodoo-empty-text: #8a95a3;
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --color-background-page: #0d1117;
+    --color-background-primary: #151b23;
+    --color-background-secondary: #1f2732;
+    --color-background-tertiary: #2a3442;
+    --color-background-info: #2f81f7;
+    --color-background-success: rgba(46, 160, 67, 0.18);
+    --color-background-warning: rgba(210, 153, 34, 0.18);
+    --color-background-danger: rgba(248, 81, 73, 0.16);
+    --color-background-transparent: transparent;
+
+    --color-text-primary: #f0f3f6;
+    --color-text-secondary: #b8c1cc;
+    --color-text-tertiary: #8793a2;
+    --color-text-info: #79b8ff;
+    --color-text-success: #7ee787;
+    --color-text-warning: #f0c36b;
+    --color-text-danger: #ff8182;
+    --color-text-on-accent: #ffffff;
+
+    --color-border-primary: rgba(240, 243, 246, 0.36);
+    --color-border-secondary: rgba(240, 243, 246, 0.2);
+    --color-border-tertiary: rgba(240, 243, 246, 0.12);
+    --color-border-info: rgba(121, 184, 255, 0.36);
+    --color-border-success: rgba(126, 231, 135, 0.28);
+    --color-border-warning: rgba(240, 195, 107, 0.3);
+    --color-border-danger: rgba(255, 129, 130, 0.34);
+    --color-border-spinner: rgba(240, 243, 246, 0.18);
+    --color-border-spinner-active: currentColor;
+    --color-border-spinner-light: rgba(255, 255, 255, 0.3);
+
+    --bg: var(--color-background-page);
+    --paper: var(--color-background-primary);
+    --field-bg: #0f141b;
+    --card-bg: var(--color-background-primary);
+    --border: var(--color-border-tertiary);
+    --ink: var(--color-text-primary);
+    --muted: var(--color-text-secondary);
+    --accent: #ff7b45;
+    --accent-dark: #d85e2f;
+    --line: var(--color-border-tertiary);
+    --white: #ffffff;
+    --danger: #ff4655;
+    --danger-ink: var(--color-text-danger);
+    --danger-border: var(--color-border-danger);
+    --bg-radial-start: #151b23;
+    --bg-radial-end: #080b10;
+    --aside-grad-start: #151b23;
+    --aside-grad-end: #0f141b;
+    --nav-active-bg: #1f2732;
+    --shadow: rgba(0, 0, 0, 0.32);
+    --shadow-strong: rgba(0, 0, 0, 0.5);
+
+    --doodoo-backdrop-bg: rgba(0, 0, 0, 0.6);
+    --doodoo-panel-bg: var(--color-background-primary);
+    --doodoo-panel-text: var(--color-text-primary);
+    --doodoo-panel-border: var(--color-border-tertiary);
+    --doodoo-field-bg: var(--field-bg);
+    --doodoo-field-border: rgba(240, 243, 246, 0.16);
+    --doodoo-button-bg: var(--color-background-secondary);
+    --doodoo-button-text: var(--color-text-primary);
+    --doodoo-list-bg: var(--field-bg);
+    --doodoo-list-header-bg: var(--color-background-primary);
+    --doodoo-list-border: rgba(240, 243, 246, 0.1);
+    --doodoo-list-item-border: rgba(240, 243, 246, 0.06);
+    --doodoo-empty-text: #667386;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        color-scheme: dark;
+
+        --color-background-page: #0d1117;
+        --color-background-primary: #151b23;
+        --color-background-secondary: #1f2732;
+        --color-background-tertiary: #2a3442;
+        --color-background-info: #2f81f7;
+        --color-background-success: rgba(46, 160, 67, 0.18);
+        --color-background-warning: rgba(210, 153, 34, 0.18);
+        --color-background-danger: rgba(248, 81, 73, 0.16);
+        --color-background-transparent: transparent;
+
+        --color-text-primary: #f0f3f6;
+        --color-text-secondary: #b8c1cc;
+        --color-text-tertiary: #8793a2;
+        --color-text-info: #79b8ff;
+        --color-text-success: #7ee787;
+        --color-text-warning: #f0c36b;
+        --color-text-danger: #ff8182;
+        --color-text-on-accent: #ffffff;
+
+        --color-border-primary: rgba(240, 243, 246, 0.36);
+        --color-border-secondary: rgba(240, 243, 246, 0.2);
+        --color-border-tertiary: rgba(240, 243, 246, 0.12);
+        --color-border-info: rgba(121, 184, 255, 0.36);
+        --color-border-success: rgba(126, 231, 135, 0.28);
+        --color-border-warning: rgba(240, 195, 107, 0.3);
+        --color-border-danger: rgba(255, 129, 130, 0.34);
+        --color-border-spinner: rgba(240, 243, 246, 0.18);
+        --color-border-spinner-active: currentColor;
+        --color-border-spinner-light: rgba(255, 255, 255, 0.3);
+
+        --bg: var(--color-background-page);
+        --paper: var(--color-background-primary);
+        --field-bg: #0f141b;
+        --card-bg: var(--color-background-primary);
+        --border: var(--color-border-tertiary);
+        --ink: var(--color-text-primary);
+        --muted: var(--color-text-secondary);
+        --accent: #ff7b45;
+        --accent-dark: #d85e2f;
+        --line: var(--color-border-tertiary);
+        --white: #ffffff;
+        --danger: #ff4655;
+        --danger-ink: var(--color-text-danger);
+        --danger-border: var(--color-border-danger);
+        --bg-radial-start: #151b23;
+        --bg-radial-end: #080b10;
+        --aside-grad-start: #151b23;
+        --aside-grad-end: #0f141b;
+        --nav-active-bg: #1f2732;
+        --shadow: rgba(0, 0, 0, 0.32);
+        --shadow-strong: rgba(0, 0, 0, 0.5);
+
+        --doodoo-backdrop-bg: rgba(0, 0, 0, 0.6);
+        --doodoo-panel-bg: var(--color-background-primary);
+        --doodoo-panel-text: var(--color-text-primary);
+        --doodoo-panel-border: var(--color-border-tertiary);
+        --doodoo-field-bg: var(--field-bg);
+        --doodoo-field-border: rgba(240, 243, 246, 0.16);
+        --doodoo-button-bg: var(--color-background-secondary);
+        --doodoo-button-text: var(--color-text-primary);
+        --doodoo-list-bg: var(--field-bg);
+        --doodoo-list-header-bg: var(--color-background-primary);
+        --doodoo-list-border: rgba(240, 243, 246, 0.1);
+        --doodoo-list-item-border: rgba(240, 243, 246, 0.06);
+        --doodoo-empty-text: #667386;
+    }
+}

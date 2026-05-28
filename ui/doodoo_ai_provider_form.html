@@ -1,0 +1,30 @@
+<form class="doodoo-ai-provider-form">
+    <h2>Ajouter un provider IA</h2>
+    <div class="doodoo-grid">
+        <label class="doodoo-field">
+            <span>Provider</span>
+            <select name="preset_id"></select>
+        </label>
+        <label class="doodoo-field" data-custom style="display:none">
+            <span>Identifiant</span>
+            <input name="id" placeholder="ex: mon-provider" />
+        </label>
+        <label class="doodoo-field" data-custom style="display:none">
+            <span>Nom</span>
+            <input name="name" placeholder="ex: Mon Provider" />
+        </label>
+        <label class="doodoo-field" data-custom style="display:none">
+            <span>URL de base</span>
+            <input name="url" placeholder="https://..." />
+        </label>
+        <label class="doodoo-field">
+            <span>Clé API</span>
+            <input name="api_key" type="password" autocomplete="off" />
+        </label>
+    </div>
+    <div class="doodoo-msg"></div>
+    <div class="doodoo-actions">
+        <button type="button" data-cancel>Annuler</button>
+        <button class="primary" type="submit">Sauvegarder</button>
+    </div>
+</form>

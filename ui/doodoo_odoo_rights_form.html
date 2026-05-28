@@ -1,0 +1,52 @@
+<form class="doodoo-odoo-rights">
+    <h2>Ajouter une règle</h2>
+    <div class="doodoo-grid">
+        <label class="doodoo-field">
+            <span>Profil de connexion</span>
+            <select name="profile_id" required>
+                <option value="">Chargement...</option>
+            </select>
+        </label>
+
+        <div class="doodoo-field">
+            <span>Modèle Odoo</span>
+            <select name="model_name" required>
+                <option value="">Chargement...</option>
+            </select>
+            <input name="odoo_model" type="hidden" />
+        </div>
+
+        <div class="doodoo-field doodoo-fields-section" style="display:none">
+            <span>Champs autorisés</span>
+            <div class="doodoo-tag-input">
+                <div class="doodoo-tags-list"></div>
+                <div class="doodoo-combobox-wrap">
+                    <input name="field_search" class="doodoo-combo-input" type="text"
+                        placeholder="Ajouter un champ..." autocomplete="off" />
+                    <div class="doodoo-combo-options doodoo-field-options" hidden></div>
+                </div>
+            </div>
+            <button type="button" class="doodoo-all-fields-btn" data-all-fields>Tous les champs (*)</button>
+        </div>
+
+        <div class="doodoo-field">
+            <span>Opérations autorisées</span>
+            <div class="doodoo-crud-flags">
+                <label class="doodoo-check"><input name="crud_read"   type="checkbox" checked /><span>Lecture</span></label>
+                <label class="doodoo-check"><input name="crud_create" type="checkbox" /><span>Création</span></label>
+                <label class="doodoo-check"><input name="crud_update" type="checkbox" /><span>Modification</span></label>
+                <label class="doodoo-check"><input name="crud_delete" type="checkbox" /><span>Suppression</span></label>
+            </div>
+        </div>
+
+        <label class="doodoo-check">
+            <input name="require_confirmation" type="checkbox" />
+            <span>Demander confirmation</span>
+        </label>
+    </div>
+    <div class="doodoo-msg"></div>
+    <div class="doodoo-actions">
+        <button type="button" data-cancel>Annuler</button>
+        <button class="primary" type="submit">Sauvegarder</button>
+    </div>
+</form>

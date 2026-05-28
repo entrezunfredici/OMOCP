@@ -1,0 +1,371 @@
+/* ── Odoo confirmation overlay ────────────────────────────────── */
+.doodoo-confirm-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.55);
+    padding: 24px;
+}
+
+.doodoo-confirm-box {
+    background: var(--doodoo-modal-bg, #1e1e2e);
+    border: 1px solid var(--doodoo-modal-border, #3a3a4a);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    padding: 24px 28px;
+    width: min(400px, 100%);
+    font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+    color: var(--color-text-primary, #e0e0e0);
+}
+
+.doodoo-confirm-header {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--color-text-primary, #e0e0e0);
+}
+
+.doodoo-confirm-body {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--color-text-secondary, #b0b0c0);
+    margin-bottom: 20px;
+}
+
+.doodoo-confirm-body strong { color: var(--color-text-primary, #e0e0e0); }
+.doodoo-confirm-body code  { font-size: 12px; background: rgba(255,255,255,0.07); padding: 1px 5px; border-radius: 4px; }
+
+.doodoo-confirm-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.doodoo-confirm-deny,
+.doodoo-confirm-allow {
+    border: none;
+    border-radius: 6px;
+    padding: 7px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .15s;
+}
+.doodoo-confirm-deny:disabled,
+.doodoo-confirm-allow:disabled { opacity: .45; cursor: default; }
+
+.doodoo-confirm-deny  { background: rgba(255,255,255,0.08); color: var(--color-text-secondary, #b0b0c0); }
+.doodoo-confirm-deny:hover:not(:disabled)  { background: rgba(255,255,255,0.14); }
+
+.doodoo-confirm-allow { background: var(--danger, #e05c5c); color: #fff; }
+.doodoo-confirm-allow:hover:not(:disabled) { opacity: .88; }
+
+/* ── Modal backdrop ───────────────────────────────────────────── */
+.doodoo-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483000;
+    background: var(--doodoo-backdrop-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.doodoo-provider-modal,
+.doodoo-odoo-profile,
+.doodoo-ai-provider-form,
+.doodoo-odoo-rights {
+    background: var(--doodoo-panel-bg);
+    color: var(--doodoo-panel-text);
+    border: 1px solid var(--doodoo-panel-border);
+    border-radius: 10px;
+    box-shadow: 0 18px 70px var(--shadow-strong);
+    padding: 18px;
+    font: 14px system-ui, -apple-system, Segoe UI, sans-serif;
+}
+
+.doodoo-provider-modal,
+.doodoo-odoo-profile,
+.doodoo-ai-provider-form {
+    width: min(520px, 100%);
+}
+
+.doodoo-odoo-rights {
+    width: min(600px, 100%);
+}
+
+.doodoo-provider-modal h2,
+.doodoo-odoo-profile h2,
+.doodoo-ai-provider-form h2,
+.doodoo-odoo-rights h2 {
+    font-size: 16px;
+    margin: 0 0 14px;
+}
+
+.doodoo-grid,
+.doodoo-profil-odoo {
+    display: grid;
+    gap: 10px;
+}
+
+.doodoo-field,
+.doodoo-profil-field,
+.doodoo-provider-field {
+    display: grid;
+    gap: 5px;
+}
+
+.doodoo-field span,
+.doodoo-profil-field span,
+.doodoo-provider-field span {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    font-weight: 600;
+}
+
+.doodoo-field input,
+.doodoo-field select,
+.doodoo-profil-field input,
+.doodoo-profil-field select,
+.doodoo-provider-field input,
+.doodoo-provider-field select {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--doodoo-field-bg);
+    color: var(--color-text-primary);
+    border: 1px solid var(--doodoo-field-border);
+    border-radius: 8px;
+    padding: 9px 10px;
+    font: 13px system-ui, -apple-system, Segoe UI, sans-serif;
+}
+
+.doodoo-field input:focus,
+.doodoo-field select:focus,
+.doodoo-profil-field input:focus,
+.doodoo-profil-field select:focus,
+.doodoo-provider-field input:focus,
+.doodoo-provider-field select:focus {
+    outline: none;
+    border-color: var(--color-border-primary);
+}
+
+.doodoo-actions,
+.doodoo-provider-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.doodoo-actions button,
+.doodoo-provider-actions button {
+    border: 1px solid var(--color-border-secondary);
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: var(--doodoo-button-bg);
+    color: var(--doodoo-button-text);
+    cursor: pointer;
+}
+
+.doodoo-actions button.primary,
+.doodoo-provider-actions button.primary {
+    background: var(--danger);
+    border-color: var(--danger);
+    color: var(--color-text-on-accent);
+}
+
+.doodoo-msg,
+.doodoo-provider-msg {
+    font-size: 12px;
+    margin-top: 10px;
+    color: var(--color-text-tertiary);
+}
+
+.doodoo-error,
+.doodoo-provider-error {
+    color: var(--danger-ink);
+}
+
+.doodoo-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.doodoo-check input {
+    width: auto !important;
+    flex: none;
+}
+
+.doodoo-check span {
+    text-transform: none;
+    font-weight: normal;
+    font-size: 13px;
+    color: var(--color-text-primary);
+}
+
+/* ── Combobox (model / field autocomplete) ──────────────────────── */
+.doodoo-combobox-wrap {
+    position: relative;
+}
+
+.doodoo-combo-input {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--doodoo-field-bg);
+    color: var(--color-text-primary);
+    border: 1px solid var(--doodoo-field-border);
+    border-radius: 8px;
+    padding: 9px 10px;
+    font: 13px system-ui, -apple-system, Segoe UI, sans-serif;
+}
+
+.doodoo-combo-input:focus {
+    outline: none;
+    border-color: var(--color-border-primary);
+}
+
+.doodoo-combo-input:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.doodoo-combo-options {
+    position: absolute;
+    top: calc(100% + 3px);
+    left: 0;
+    right: 0;
+    background: var(--doodoo-panel-bg);
+    border: 1px solid var(--doodoo-panel-border);
+    border-radius: 8px;
+    max-height: 210px;
+    overflow-y: auto;
+    z-index: 10;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+}
+
+.doodoo-combo-option {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 7px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--doodoo-field-border);
+}
+
+.doodoo-combo-option:last-child {
+    border-bottom: none;
+}
+
+.doodoo-combo-option:hover {
+    background: var(--doodoo-field-bg);
+}
+
+.doodoo-combo-model {
+    font-size: 12px;
+    font-family: monospace;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.doodoo-combo-name {
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ── Tag input (field chips) ────────────────────────────────────── */
+.doodoo-tag-input {
+    border: 1px solid var(--doodoo-field-border);
+    border-radius: 8px;
+    background: var(--doodoo-field-bg);
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.doodoo-tag-input:focus-within {
+    border-color: var(--color-border-primary);
+}
+
+.doodoo-tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    min-height: 20px;
+}
+
+.doodoo-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: var(--doodoo-button-bg);
+    border: 1px solid var(--doodoo-field-border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 11px;
+    font-family: monospace;
+    color: var(--color-text-primary);
+    line-height: 1.5;
+}
+
+.doodoo-tag button {
+    border: none;
+    background: none;
+    padding: 0 0 0 2px;
+    cursor: pointer;
+    color: var(--color-text-tertiary);
+    font-size: 14px;
+    line-height: 1;
+}
+
+.doodoo-tag button:hover {
+    color: var(--danger-ink);
+}
+
+.doodoo-tag-input .doodoo-combobox-wrap .doodoo-combo-input {
+    border: none;
+    background: transparent;
+    padding: 3px 2px;
+    border-radius: 0;
+    font-size: 12px;
+}
+
+.doodoo-tag-input .doodoo-combobox-wrap .doodoo-combo-input:focus {
+    outline: none;
+}
+
+.doodoo-all-fields-btn {
+    font-size: 11px;
+    border: 1px dashed var(--doodoo-field-border);
+    border-radius: 6px;
+    padding: 3px 8px;
+    background: none;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 2px;
+}
+
+.doodoo-all-fields-btn:hover {
+    border-color: var(--color-border-primary);
+    color: var(--color-text-primary);
+}
+
+/* ── CRUD flags row ─────────────────────────────────────────────── */
+.doodoo-crud-flags {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding: 4px 0;
+}

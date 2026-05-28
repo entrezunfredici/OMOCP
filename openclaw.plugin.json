@@ -1,12 +1,15 @@
 {
-  "id": "odoo-plugin",
-  "name": "Odoo Plugin",
-  "description": "Safe Odoo connector for OpenClaw with bounded CRUD tools",
+  "id": "omocp",
+  "name": "OMOCP — Odoo Manager OpenClaw Plugin",
+  "description": "Plugin Odoo générique pour OpenClaw : connecteur CRUD sécurisé avec gestion des droits par profil",
   "version": "0.1.0",
   "skills": [
-    "./skills"
+    "./skills/odoo",
+    "./skills/odoo/accounting",
+    "./skills/odoo/crm",
+    "./skills/odoo/hr",
+    "./skills/odoo/inventory"
   ],
-  "settingsUrl": "/plugin/odoo/settings",
   "configSchema": {
     "type": "object",
     "additionalProperties": false,
@@ -14,49 +17,276 @@
       "active_connection_profile_id": {
         "type": "string",
         "default": "default",
-        "description": "Profil de connexion actif par défaut. Gérez vos profils sur /plugin/odoo/settings"
+        "description": "Connection profile selected by default when a tool call does not override it."
       },
       "active_access_profile_id": {
         "type": "string",
         "default": "readonly",
-        "description": "Profil d'accès actif par défaut."
+        "description": "Access profile selected by default when a tool call does not override it."
       },
       "default_limit": {
         "type": "integer",
         "minimum": 1,
         "maximum": 200,
         "default": 25,
-        "description": "Nombre maximum d'enregistrements retournés par odoo_read."
+        "description": "Default maximum number of records returned by odoo_read."
       },
       "read_only": {
         "type": "boolean",
         "default": true,
-        "description": "Si activé, les opérations create/update/delete sont bloquées globalement même si les règles le permettent."
+        "description": "When true, create/update/delete are blocked globally even if permission rules allow them."
+      },
+      "connection_profiles": {
+        "type": "array",
+        "description": "Available Odoo connection profiles.",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Stable identifier used in tool calls."
+            },
+            "label": {
+              "type": "string",
+              "description": "Human-readable label shown in configuration."
+            },
+            "base_url": {
+              "type": "string",
+              "description": "Base URL of the Odoo instance."
+            },
+            "database": {
+              "type": "string",
+              "description": "Odoo database name."
+            },
+            "login": {
+              "type": "string",
+              "description": "Technical account login."
+            },
+            "auth_type": {
+              "type": "string",
+              "enum": [
+                "password",
+                "api_key"
+              ],
+              "default": "password",
+              "description": "Authentication mode for the technical account."
+            },
+            "secret_ref": {
+              "type": "string",
+              "description": "Secret reference resolved internally by the backend."
+            },
+            "api_mode": {
+              "type": "string",
+              "enum": [
+                "jsonrpc"
+              ],
+              "default": "jsonrpc",
+              "description": "Transport mode used by the backend."
+            },
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether this connection profile can be used."
+            },
+            "port": {
+              "type": "integer",
+              "default": 443,
+              "description": "HTTPS port for the Odoo host."
+            }
+          },
+          "required": [
+            "id",
+            "label",
+            "base_url",
+            "database",
+            "login",
+            "secret_ref"
+          ]
+        }
+      },
+      "access_profiles": {
+        "type": "array",
+        "description": "Authorization profiles bound to connection profiles.",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "connection_profile_id": {
+              "type": "string",
+              "description": "Connection profile this access profile is allowed to use."
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "default_read_confirmation": {
+              "type": "boolean"
+            },
+            "default_create_confirmation": {
+              "type": "boolean"
+            },
+            "default_write_confirmation": {
+              "type": "boolean"
+            },
+            "default_delete_confirmation": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "id",
+            "label",
+            "connection_profile_id",
+            "enabled",
+            "default_read_confirmation",
+            "default_create_confirmation",
+            "default_write_confirmation",
+            "default_delete_confirmation"
+          ]
+        }
+      },
+      "permission_rules": {
+        "type": "array",
+        "description": "Explicit allow or deny rules evaluated per (model, field, operation).",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "access_profile_id": {
+              "type": "string"
+            },
+            "model": {
+              "type": "string"
+            },
+            "field": {
+              "type": "string",
+              "description": "Field name or '*' wildcard."
+            },
+            "operation": {
+              "type": "string",
+              "enum": [
+                "read",
+                "create",
+                "write",
+                "delete"
+              ]
+            },
+            "allowed": {
+              "type": "boolean"
+            },
+            "require_confirmation": {
+              "type": "boolean"
+            },
+            "template_ids": {
+              "type": "array",
+              "description": "Optional template bindings allowed by this rule.",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "access_profile_id",
+            "model",
+            "field",
+            "operation",
+            "allowed"
+          ]
+        }
+      },
+      "templates": {
+        "type": "array",
+        "description": "Reusable bounded templates for known actions.",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "action": {
+              "type": "string",
+              "enum": [
+                "create_task"
+              ],
+              "description": "Bounded action supported by the template."
+            },
+            "required_variables": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "payload_template": {
+              "type": "object"
+            },
+            "enabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "id",
+            "label",
+            "action",
+            "required_variables",
+            "payload_template",
+            "enabled"
+          ]
+        }
+      },
+      "baseUrl": {
+        "type": "string",
+        "description": "Legacy compatibility field mapped into the default connection profile."
+      },
+      "database": {
+        "type": "string",
+        "description": "Legacy compatibility field mapped into the default connection profile."
+      },
+      "profile": {
+        "type": "string",
+        "enum": [
+          "readonly",
+          "project_ops"
+        ],
+        "default": "readonly",
+        "description": "Legacy compatibility field mapped into the default access profile."
+      },
+      "readOnly": {
+        "type": "boolean",
+        "default": true,
+        "description": "Legacy compatibility field mapped into read_only."
+      },
+      "defaultLimit": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200,
+        "default": 25,
+        "description": "Legacy compatibility field mapped into default_limit."
       }
     }
   },
   "uiHints": {
     "labels": {
-      "active_connection_profile_id": "Profil de connexion actif",
-      "active_access_profile_id": "Profil d'accès actif",
-      "default_limit": "Limite de lecture par défaut",
-      "read_only": "Mode lecture seule global"
-    },
-    "active_connection_profile_id": {
-      "label": "Profil de connexion actif",
-      "placeholder": "default",
-      "hint": "Gérez vos profils sur /plugin/odoo/settings"
-    },
-    "active_access_profile_id": {
-      "label": "Profil d'accès actif",
-      "placeholder": "readonly"
-    },
-    "default_limit": {
-      "label": "Limite de lecture par défaut",
-      "placeholder": "25"
-    },
-    "read_only": {
-      "label": "Mode lecture seule global"
+      "active_connection_profile_id": "Active connection profile",
+      "active_access_profile_id": "Active access profile",
+      "default_limit": "Default read limit",
+      "read_only": "Global read only",
+      "connection_profiles": "Connection profiles",
+      "access_profiles": "Access profiles",
+      "permission_rules": "Permission rules",
+      "templates": "Action templates"
     }
   }
 }

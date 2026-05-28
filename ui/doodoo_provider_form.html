@@ -1,0 +1,26 @@
+<form class="doodoo-provider-modal">
+    <h2>Ajouter une clé API provider</h2>
+    <div class="doodoo-grid">
+        <label class="doodoo-field">
+            <span>Provider</span>
+            <select name="provider"></select>
+        </label>
+        <label class="doodoo-field" data-custom>
+            <span>Nom provider</span>
+            <input name="name" />
+        </label>
+        <label class="doodoo-field">
+            <span>URL</span>
+            <input name="url" required />
+        </label>
+        <label class="doodoo-field">
+            <span>Clé API</span>
+            <input name="key" type="password" autocomplete="off" required />
+        </label>
+    </div>
+    <div class="doodoo-msg"></div>
+    <div class="doodoo-actions">
+        <button type="button" data-cancel>Annuler</button>
+        <button class="primary" type="submit">Sauvegarder</button>
+    </div>
+</form>

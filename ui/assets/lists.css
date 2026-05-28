@@ -1,0 +1,322 @@
+.doodoo-list-widget {
+    background: var(--doodoo-list-bg);
+    border: 1px solid var(--doodoo-list-border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 6px 0;
+}
+
+.doodoo-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: var(--doodoo-list-header-bg);
+    border-bottom: 1px solid var(--doodoo-list-border);
+}
+
+.doodoo-list-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.doodoo-list-add {
+    font-size: 11px;
+    padding: 3px 9px;
+    border: 1px solid var(--color-border-secondary);
+    border-radius: 5px;
+    background: var(--color-background-transparent);
+    color: var(--color-text-primary);
+    cursor: pointer;
+}
+
+.doodoo-list-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.doodoo-list-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--doodoo-list-item-border);
+    color: var(--color-text-primary);
+    font-size: 12px;
+}
+
+.doodoo-list-item:last-child {
+    border-bottom: none;
+}
+
+.doodoo-list-item-label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.doodoo-list-item-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.doodoo-list-item-actions button {
+    font-size: 11px;
+    padding: 2px 6px;
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: 4px;
+    background: var(--color-background-transparent);
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+}
+
+.doodoo-list-item-actions button.danger {
+    color: var(--danger-ink);
+    border-color: var(--danger-border);
+}
+
+.doodoo-list-empty {
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--doodoo-empty-text);
+    font-style: italic;
+}
+
+/* ── Floating API Keys panel ───────────────────────────────────── */
+#doodoo-ai-float {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 9990;
+    width: 290px;
+    background: var(--doodoo-list-bg);
+    border: 1px solid var(--doodoo-list-border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+    font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+}
+
+.doodoo-ak-float-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 12px;
+    background: var(--doodoo-list-header-bg);
+    border-bottom: 1px solid var(--doodoo-list-border);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+    user-select: none;
+}
+
+.doodoo-ak-float-header button {
+    background: none;
+    border: none;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+    font-size: 10px;
+    padding: 0;
+    line-height: 1;
+}
+
+.doodoo-ak-float-body {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.doodoo-ak-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--doodoo-list-item-border);
+    font-size: 13px;
+    color: var(--color-text-primary);
+}
+
+.doodoo-ak-row:last-child {
+    border-bottom: none;
+}
+
+.doodoo-ak-name {
+    flex: 1;
+}
+
+.doodoo-ak-check {
+    font-size: 11px;
+    color: var(--color-text-success, #7ee787);
+    min-width: 16px;
+    text-align: center;
+}
+
+.doodoo-ak-add {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--danger);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 0;
+    white-space: nowrap;
+}
+
+.doodoo-ak-add:hover {
+    text-decoration: underline;
+}
+
+.doodoo-ak-footer {
+    padding: 7px 12px;
+    border-top: 1px solid var(--doodoo-list-item-border);
+}
+
+.doodoo-ak-custom {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.doodoo-ak-custom:hover {
+    color: var(--color-text-primary);
+}
+
+.doodoo-reload-status {
+    font-size: 11px;
+    padding: 5px 12px;
+    border-top: 1px solid var(--doodoo-list-item-border);
+}
+.doodoo-reload-loading { color: var(--color-text-tertiary); }
+.doodoo-reload-ok      { color: var(--color-text-success, #7ee787); }
+.doodoo-reload-warn    { color: var(--color-text-warning, #e3b341); }
+
+/* ── Floating Odoo Profiles panel ─────────────────────────────── */
+#doodoo-odoo-float {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 9990;
+    width: 310px;
+    background: var(--doodoo-list-bg);
+    border: 1px solid var(--doodoo-list-border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+    font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+}
+
+.doodoo-odoo-profile-block {
+    border-bottom: 1px solid var(--doodoo-list-item-border);
+}
+
+.doodoo-odoo-profile-block:last-of-type {
+    border-bottom: none;
+}
+
+.doodoo-odoo-toggle {
+    color: var(--color-text-tertiary) !important;
+    font-weight: normal !important;
+}
+
+.doodoo-odoo-delete {
+    color: var(--danger-ink) !important;
+}
+
+.doodoo-odoo-delete:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    text-decoration: none;
+}
+
+.doodoo-odoo-rules-section {
+    background: var(--doodoo-list-header-bg);
+    border-top: 1px solid var(--doodoo-list-item-border);
+    padding: 4px 0;
+}
+
+.doodoo-odoo-rule-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 6px 16px;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--doodoo-list-item-border);
+}
+
+.doodoo-odoo-rule-row:last-of-type {
+    border-bottom: none;
+}
+
+.doodoo-odoo-rule-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.doodoo-odoo-rule-desc {
+    font-family: monospace;
+    font-size: 11px;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.doodoo-odoo-rule-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 3px;
+}
+
+/* Field chips inside the panel */
+.doodoo-right-field-tag {
+    display: inline-block;
+    background: var(--doodoo-list-header-bg);
+    border: 1px solid var(--doodoo-list-border);
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-size: 10px;
+    font-family: monospace;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+}
+
+/* CRUD badges */
+.doodoo-right-crud {
+    display: flex;
+    gap: 1px;
+    margin-left: 2px;
+}
+
+.doodoo-right-crud-flag {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 3px;
+    border-radius: 3px;
+    opacity: 0.2;
+    line-height: 1.4;
+}
+
+.doodoo-right-crud-flag.on { opacity: 1; }
+.doodoo-right-crud-flag.r  { color: #4a9eff; }
+.doodoo-right-crud-flag.c  { color: #56c96b; }
+.doodoo-right-crud-flag.u  { color: #f0a040; }
+.doodoo-right-crud-flag.d  { color: #e05c5c; }
+
+.doodoo-odoo-add-rule {
+    display: block;
+    padding: 5px 16px !important;
+}
